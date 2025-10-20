@@ -219,6 +219,28 @@ body {
     box-shadow: 0 0 0 2px var(--gb-darkest), 0 0 0 4px rgba(94, 255, 153, 0.45);
 }
 
+.top-toolbar a[data-destination="map"] {
+    position: relative;
+    padding-left: 28px;
+    font-weight: 600;
+}
+
+.top-toolbar a[data-destination="map"]::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: rgba(94, 255, 153, 0.75);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.top-toolbar a.is-active[data-destination="map"]::before {
+    background: #1f3a2a;
+}
+
 /* Loading Screen (Game Boy Boot Animation) */
 .loading-screen {
     position: fixed;
@@ -797,6 +819,66 @@ h2 {
 
 .show-list li:hover .date {
     color: #0b1d13;
+}
+
+#tourMap {
+    position: relative;
+    width: 100%;
+    height: clamp(220px, 52vh, 320px);
+    border: 1px solid rgba(24, 42, 32, 0.45);
+    border-radius: clamp(10px, 2.5vw, 16px);
+    background: linear-gradient(180deg, rgba(210, 236, 204, 0.85) 0%, rgba(166, 196, 158, 0.9) 100%);
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 0 1px rgba(38, 64, 46, 0.28),
+        inset 0 16px 24px rgba(255, 255, 255, 0.12),
+        inset 0 -16px 28px rgba(36, 56, 44, 0.22);
+}
+
+#tourMap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        0deg,
+        rgba(24, 40, 28, 0.14),
+        rgba(24, 40, 28, 0.14) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+}
+
+#tourMap .leaflet-pane,
+#tourMap .leaflet-tile,
+#tourMap .leaflet-control-container {
+    filter: hue-rotate(85deg) saturate(0.6) brightness(0.92) contrast(1.08);
+}
+
+#tourMap .leaflet-control-container {
+    font-size: 0.45rem;
+}
+
+#tourMap .leaflet-control-attribution {
+    background: rgba(12, 26, 18, 0.7);
+    color: #d8ffe0;
+    border-radius: 6px 0 0 0;
+    padding: 4px 6px;
+}
+
+#tourMap .leaflet-control-attribution a {
+    color: #94ffbd;
+    text-decoration: none;
+}
+
+#tourMap .leaflet-popup-content-wrapper,
+#tourMap .leaflet-popup-tip {
+    background: rgba(12, 30, 20, 0.88);
+    color: #d8ffe0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55rem;
 }
 
 /* Call-to-Action Message (Typing/Flicker Effect) */
