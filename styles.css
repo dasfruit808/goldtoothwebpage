@@ -148,14 +148,6 @@ body {
     z-index: 1;
 }
 
-.loading-header {
-    font-size: 0.6rem;
-    text-align: center;
-    margin-bottom: 12px;
-    color: var(--gb-lightest);
-    text-shadow: 1px 1px 0 var(--gb-dark);
-}
-
 .loading-display {
     background: var(--gb-lightest);
     border: 6px solid var(--gb-darkest);
