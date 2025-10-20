@@ -1,0 +1,197 @@
+/* Game Boy Style Variables (Green Tones) */
+:root {
+    --gb-darkest: #0f380f;    /* Black (Color 4) - Text/Borders */
+    --gb-dark: #306230;       /* Dark Green (Color 3) - Frame/Elements */
+    --gb-light: #80a080;      /* Light Green (Color 2) - Accent/Hover */
+    --gb-lightest: #9bbc0f;   /* Background/Highlight (Color 1) - Screen */
+}
+
+/* Base Styling for Game Boy Look and STICKY FOOTER SETUP */
+html, .site-wrapper {
+    height: 100%;
+}
+
+body {
+    /* Updated: Using the imported pixel font 'Press Start 2P' */
+    font-family: 'Press Start 2P', monospace; 
+    
+    /* Updated: Smaller base font size and line height for pixel look */
+    font-size: 8px; 
+    line-height: 1.5;
+    
+    margin: 0;
+    padding: 0;
+    
+    /* Updated: Darker, more plastic-like background frame */
+    background-color: #1c1f17; 
+    
+    color: var(--gb-darkest);
+    text-align: center;
+    
+    /* Added: Default cursor for the main body */
+    cursor: default; 
+    
+    /* STICKY FOOTER: Flexbox setup */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Added: General text-shadow for all major text elements to give a pixel outline */
+.content-section * {
+    text-shadow: 1px 1px 0 var(--gb-darkest);
+}
+
+/* Main Content Wrapper (The "Screen" area) */
+.content-section {
+    background-color: var(--gb-lightest); /* The main screen color */
+    padding: 20px; 
+    max-width: 480px; 
+    
+    /* Center the screen and push the footer down */
+    margin: 40px auto 20px auto; 
+    flex-grow: 1; 
+    
+    text-align: center; 
+    
+    /* Added: Set position for scanline overlay */
+    position: relative; 
+    overflow: hidden; 
+    
+    /* Add a solid black border to mimic the screen bezel */
+    border: 8px solid var(--gb-darkest);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5) inset; /* Screen depth */
+}
+
+/* Added: Scanline Overlay Effect (Game Boy Screen Distortion) */
+.content-section::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks on content below */
+    
+    /* Thin, subtle horizontal lines */
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(15, 56, 15, 0.15), 
+        rgba(15, 56, 15, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    opacity: 0.7; /* Adjust opacity for subtlety */
+}
+
+/* Headings Styling */
+h2 {
+    font-size: 1.5em;
+    color: var(--gb-darkest);
+    text-transform: uppercase;
+    letter-spacing: 5px; 
+    padding: 10px 0;
+    margin: 0 0 20px 0;
+    
+    border-bottom: 2px solid var(--gb-darkest);
+    text-align: center;
+}
+
+/* Show List Styling */
+.show-list {
+    list-style: none; 
+    padding: 0;
+    margin: 0 0 30px 0;
+}
+
+.show-list li {
+    background-color: var(--gb-light); 
+    padding: 10px;
+    margin-bottom: 8px;
+    
+    /* Updated: Font size */
+    font-size: 10px; 
+    
+    /* Updated: Crosshair cursor for interaction */
+    cursor: crosshair; 
+    text-align: left;
+    
+    border: 2px solid var(--gb-darkest);
+    text-shadow: none; 
+}
+
+/* Hover/Active State (Simulate contrast change and button press) */
+.show-list li:hover {
+    background-color: var(--gb-darkest); 
+    color: var(--gb-lightest); 
+    transform: none; 
+    
+    /* Added: Depressed button look */
+    box-shadow: inset 2px 2px 0 var(--gb-dark);
+}
+
+/* Link Styling */
+.show-list a {
+    text-decoration: none; 
+    color: var(--gb-darkest); 
+    font-weight: bold;
+    display: inline; 
+    padding-top: 0;
+}
+
+.show-list li:hover a {
+    color: var(--gb-lightest); 
+}
+
+.date {
+    font-weight: bold;
+    color: var(--gb-darkest);
+    margin-right: 10px;
+}
+
+.show-list li:hover .date {
+    color: var(--gb-lightest);
+}
+
+/* Call-to-Action Message (Typing/Flicker Effect) */
+.cta-message {
+    font-style: normal;
+    color: var(--gb-darkest);
+    text-align: center;
+    margin-top: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    
+    /* Added: Typing Animation Properties */
+    overflow: hidden; 
+    white-space: nowrap; 
+    width: 0; 
+    border-right: 2px solid var(--gb-darkest); /* The cursor line */
+    
+    /* Apply both typing and blinking animations */
+    animation: 
+        typing 2.5s steps(32, end) forwards, /* 32 steps matches the character count */
+        blink 0.75s step-end infinite; 
+}
+
+/* KEYFRAMES for Typing and Blinking */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: var(--gb-darkest); }
+}
+
+/* Footer Styling (Always at the bottom of the viewport) */
+footer {
+    padding: 10px;
+    background-color: var(--gb-darkest); 
+    color: var(--gb-lightest); 
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: auto; 
+    width: 100%;
+}
