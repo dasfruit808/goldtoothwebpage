@@ -1,9 +1,9 @@
-/* Game Boy Style Variables (Green Tones) */
+/* Game Boy Style Variables (Monochrome Tones) */
 :root {
-    --gb-darkest: #0f380f;    /* Black (Color 4) - Text/Borders */
-    --gb-dark: #306230;       /* Dark Green (Color 3) - Frame/Elements */
-    --gb-light: #80a080;      /* Light Green (Color 2) - Accent/Hover */
-    --gb-lightest: #9bbc0f;   /* Background/Highlight (Color 1) - Screen */
+    --gb-darkest: #050505;    /* Near-black - Text/Borders */
+    --gb-dark: #2c2c2c;       /* Dark Gray - Frame/Elements */
+    --gb-light: #a6a6a6;      /* Light Gray - Accent/Hover */
+    --gb-lightest: #f5f5f5;   /* Screen background */
 }
 
 /* Base Styling for Game Boy Look and STICKY FOOTER SETUP */
@@ -23,7 +23,7 @@ body {
     padding: 0;
     
     /* Updated: Darker, more plastic-like background frame */
-    background-color: #1c1f17; 
+    background-color: #0d0d0d;
     
     color: var(--gb-darkest);
     text-align: center;
@@ -90,8 +90,8 @@ body {
     pointer-events: none;
     background: repeating-linear-gradient(
         0deg,
-        rgba(15, 56, 15, 0.12),
-        rgba(15, 56, 15, 0.12) 2px,
+        rgba(20, 20, 20, 0.12),
+        rgba(20, 20, 20, 0.12) 2px,
         transparent 2px,
         transparent 4px
     );
@@ -108,7 +108,7 @@ body {
 
 .loading-progress {
     border: 3px solid var(--gb-darkest);
-    background: rgba(12, 48, 12, 0.35);
+    background: rgba(44, 44, 44, 0.35);
     height: 18px;
     position: relative;
     overflow: hidden;
@@ -206,8 +206,8 @@ body:not(.loaded) footer {
     /* Thin, subtle horizontal lines */
     background: repeating-linear-gradient(
         0deg,
-        rgba(15, 56, 15, 0.15), 
-        rgba(15, 56, 15, 0.15) 1px,
+        rgba(30, 30, 30, 0.15),
+        rgba(30, 30, 30, 0.15) 1px,
         transparent 1px,
         transparent 2px
     );
