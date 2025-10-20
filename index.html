@@ -101,12 +101,14 @@
             const showLinks = document.querySelectorAll('.show-list a');
             const toolbarLinks = document.querySelectorAll('.toolbar-link');
             const panels = document.querySelectorAll('.screen-panel');
+            const panelStack = document.querySelector('.panel-stack');
             const loadingScreen = document.getElementById('loadingScreen');
             const progressBar = loadingScreen ? loadingScreen.querySelector('.loading-bar') : null;
             const LOADING_DURATION = 2600;
             const FADE_DURATION = 800;
             let dismissTimer = null;
             let hideTimer = null;
+            let heightFrame = null;
 
             const clearTimers = () => {
                 if (dismissTimer) {
@@ -148,6 +150,49 @@
                 sound.play().catch(e => console.error("Sound play failed:", e));
             };
 
+            const ensurePanelStackHeight = () => {
+                if (!panelStack) {
+                    return;
+                }
+
+                let maxHeight = 0;
+
+                panels.forEach(panel => {
+                    const wasHidden = panel.hasAttribute('hidden');
+
+                    if (wasHidden) {
+                        panel.classList.add('is-measuring');
+                        panel.removeAttribute('hidden');
+                    }
+
+                    maxHeight = Math.max(maxHeight, panel.offsetHeight);
+
+                    if (wasHidden) {
+                        panel.setAttribute('hidden', '');
+                        panel.classList.remove('is-measuring');
+                    }
+                });
+
+                if (maxHeight > 0) {
+                    panelStack.style.setProperty('--panel-stack-height', `${Math.ceil(maxHeight)}px`);
+                }
+            };
+
+            const schedulePanelStackHeight = () => {
+                if (!panelStack) {
+                    return;
+                }
+
+                if (heightFrame) {
+                    cancelAnimationFrame(heightFrame);
+                }
+
+                heightFrame = window.requestAnimationFrame(() => {
+                    heightFrame = null;
+                    ensurePanelStackHeight();
+                });
+            };
+
             const activatePanel = (destination) => {
                 const matchedPanel = Array.from(panels).find(panel => panel.dataset.panel === destination);
 
@@ -160,6 +205,8 @@
                     panel.toggleAttribute('hidden', !isMatch);
                     panel.classList.toggle('is-active', isMatch);
                 });
+
+                schedulePanelStackHeight();
 
                 return matchedPanel;
             };
@@ -200,6 +247,18 @@
             activatePanel('shows');
             toolbarLinks.forEach(link => {
                 link.classList.toggle('is-active', link.dataset.destination === 'shows');
+            });
+            schedulePanelStackHeight();
+
+            window.addEventListener('resize', schedulePanelStackHeight);
+            window.addEventListener('load', schedulePanelStackHeight);
+
+            document.querySelectorAll('.screen-panel img, .screen-panel iframe').forEach(media => {
+                if (media.tagName === 'IMG' && media.complete) {
+                    schedulePanelStackHeight();
+                } else {
+                    media.addEventListener('load', schedulePanelStackHeight, { once: true });
+                }
             });
 
             const dismissLoadingScreen = () => {

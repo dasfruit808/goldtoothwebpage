@@ -395,14 +395,37 @@ body:not(.loaded) .top-toolbar {
     box-sizing: border-box;
 }
 
+
 .panel-stack {
     position: relative;
     flex: 1 1 auto;
     display: grid;
+    min-height: var(--panel-stack-height, auto);
 }
 
 .screen-panel {
     grid-area: 1 / 1 / 2 / 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(12px, 3vw, 20px);
+    min-height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.screen-panel.is-measuring {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.screen-panel iframe,
+.screen-panel img,
+.screen-panel ul {
+    align-self: stretch;
 }
 
 .screen-panel[hidden] {
@@ -509,7 +532,8 @@ h2 {
 .show-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 30px 0;
+    margin: 0 auto 30px auto;
+    width: min(100%, 320px);
 }
 
 .show-list li {
