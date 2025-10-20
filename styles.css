@@ -559,7 +559,8 @@ body:not(.loaded) .top-toolbar {
     align-items: flex-end;
     justify-content: center;
     gap: clamp(3px, 1vw, 6px);
-    width: 100%;
+    align-self: center;
+    width: min(100%, clamp(220px, 80%, 320px));
     height: clamp(48px, 15vw, 72px);
     padding: clamp(8px, 2vw, 12px);
     box-sizing: border-box;
@@ -574,8 +575,7 @@ body:not(.loaded) .top-toolbar {
 }
 
 .sound-bar {
-    flex: 1 1 4px;
-    max-width: 7px;
+    flex: 0 0 clamp(4px, 0.8vw, 6px);
     height: 100%;
     border-radius: 999px;
     background: linear-gradient(180deg, rgba(96, 242, 150, 0.95) 0%, rgba(42, 140, 88, 0.9) 100%);
