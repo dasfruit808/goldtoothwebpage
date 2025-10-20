@@ -41,38 +41,22 @@ body {
 .gameboy-shell {
     position: relative;
     width: min(92vw, 440px);
-    padding: clamp(18px, 5vw, 32px);
     margin: clamp(24px, 6vw, 60px) auto;
-    border-radius: 32px 32px 72px 32px;
-    background: linear-gradient(145deg, #dcd7c7, #bab6a6);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.6),
-        inset 0 -2px 6px rgba(0, 0, 0, 0.18),
-        0 18px 0 #7f7b6d,
-        0 28px 40px rgba(0, 0, 0, 0.55);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: clamp(16px, 4vw, 28px);
-    transform-origin: top center;
+    align-items: stretch;
+    gap: clamp(12px, 3vw, 20px);
 }
 
 .gameboy-shell::before {
-    content: "";
-    position: absolute;
-    inset: clamp(8px, 2vw, 14px);
-    border-radius: 26px 26px 64px 26px;
-    pointer-events: none;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 60%);
-    mix-blend-mode: screen;
-    opacity: 0.35;
+    display: none;
 }
 
 .screen-bezel {
     position: relative;
     width: 100%;
     padding: clamp(16px, 4vw, 22px);
-    border-radius: 22px 22px 48px 22px;
+    border-radius: 22px;
     background: linear-gradient(145deg, #3f3f3f, #1b1b1b);
     box-shadow:
         inset 0 3px 6px rgba(0, 0, 0, 0.6),
@@ -108,7 +92,7 @@ body {
 
 .screen-inner {
     background: linear-gradient(145deg, #3c4a3c, #1b251e);
-    border-radius: 18px 18px 36px 18px;
+    border-radius: 18px;
     padding: clamp(14px, 4vw, 24px);
     box-shadow:
         inset 0 4px 10px rgba(0, 0, 0, 0.55),
@@ -116,6 +100,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: clamp(16px, 4vw, 24px);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .screen-inner footer {
@@ -130,149 +116,6 @@ body {
     letter-spacing: 1px;
 }
 
-.control-deck {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: clamp(24px, 6vw, 42px);
-}
-
-.dpad {
-    position: relative;
-    width: clamp(70px, 20vw, 92px);
-    height: clamp(70px, 20vw, 92px);
-    border-radius: 16px;
-    background: linear-gradient(160deg, #1d1d1d, #3a3a3a);
-    box-shadow:
-        inset 0 3px 0 rgba(255, 255, 255, 0.08),
-        inset 0 -4px 0 rgba(0, 0, 0, 0.6),
-        0 6px 0 rgba(0, 0, 0, 0.65);
-}
-
-.dpad span {
-    position: absolute;
-    background: linear-gradient(160deg, #272727, #141414);
-    border-radius: 12px;
-    box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.12);
-}
-
-.dpad-vertical {
-    width: clamp(24px, 7vw, 30px);
-    height: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.dpad-horizontal {
-    height: clamp(24px, 7vw, 30px);
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.dpad-center {
-    width: clamp(22px, 6vw, 28px);
-    height: clamp(22px, 6vw, 28px);
-    border-radius: 50%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.75));
-    box-shadow:
-        inset 0 2px 3px rgba(255, 255, 255, 0.15),
-        inset 0 -2px 3px rgba(0, 0, 0, 0.65);
-}
-
-.action-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: clamp(14px, 4vw, 22px);
-}
-
-.action-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: clamp(44px, 12vw, 58px);
-    height: clamp(44px, 12vw, 58px);
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #ff9bbd, #c03c65 55%, #5c1232 100%);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    box-shadow:
-        inset 0 3px 6px rgba(255, 255, 255, 0.25),
-        inset 0 -4px 8px rgba(0, 0, 0, 0.45),
-        0 6px 0 rgba(0, 0, 0, 0.55);
-}
-
-.action-button.a {
-    margin-left: clamp(8px, 2vw, 16px);
-}
-
-.start-select {
-    display: flex;
-    align-items: center;
-    gap: clamp(18px, 5vw, 28px);
-    padding: clamp(10px, 3vw, 16px) clamp(16px, 4vw, 24px);
-    border-radius: 999px;
-    background: linear-gradient(145deg, #a7a39a, #908d84);
-    box-shadow:
-        inset 0 2px 4px rgba(255, 255, 255, 0.35),
-        inset 0 -3px 4px rgba(0, 0, 0, 0.25);
-}
-
-.pill-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(6px, 1.8vw, 10px) clamp(20px, 5.6vw, 32px);
-    border-radius: 999px;
-    background: linear-gradient(160deg, #6d6c69, #444);
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.6rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    box-shadow:
-        inset 0 2px 4px rgba(255, 255, 255, 0.2),
-        inset 0 -3px 4px rgba(0, 0, 0, 0.4),
-        0 4px 0 rgba(0, 0, 0, 0.5);
-}
-
-.pill-button.start {
-    transform: rotate(-8deg);
-}
-
-.pill-button.select {
-    transform: rotate(6deg);
-}
-
-.speaker-grill {
-    align-self: flex-end;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: clamp(4px, 1.2vw, 6px);
-    width: clamp(110px, 30vw, 150px);
-    padding: clamp(12px, 3.2vw, 18px) clamp(18px, 5vw, 26px);
-    border-radius: 20px;
-    background: linear-gradient(145deg, #b4b0a5, #8f8c81);
-    box-shadow:
-        inset 0 2px 3px rgba(255, 255, 255, 0.35),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.35),
-        0 4px 0 rgba(0, 0, 0, 0.4);
-}
-
-.speaker-slot {
-    display: block;
-    width: 100%;
-    height: clamp(4px, 1vw, 6px);
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(30, 30, 30, 0.9), rgba(12, 12, 12, 0.75));
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
-}
 
 .top-toolbar {
     position: sticky;
@@ -281,7 +124,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: clamp(16px, 4vw, 24px);
+    gap: clamp(12px, 3vw, 18px);
+    flex-wrap: wrap;
     padding: clamp(10px, 3vw, 16px) clamp(14px, 4vw, 22px);
     background: linear-gradient(180deg, var(--gb-darkest) 0%, #0a2416 100%);
     border-radius: clamp(10px, 2.5vw, 16px);
@@ -295,6 +139,12 @@ body {
 }
 
 .top-toolbar a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 120px;
+    min-width: 0;
+    text-align: center;
     color: var(--gb-lightest);
     text-decoration: none;
     font-size: 0.75rem;
@@ -536,6 +386,7 @@ body:not(.loaded) .top-toolbar {
     border: clamp(6px, 1.6vw, 10px) solid var(--gb-darkest);
     border-radius: clamp(12px, 2.5vw, 18px);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5) inset; /* Screen depth */
+    box-sizing: border-box;
 }
 
 /* Added: Scanline Overlay Effect (Game Boy Screen Distortion) */
@@ -580,19 +431,23 @@ h2 {
 }
 
 .show-list li {
-    background-color: var(--gb-light); 
+    background-color: var(--gb-light);
     padding: 10px;
     margin-bottom: 8px;
-    
+
     /* Updated: Font size */
-    font-size: 10px; 
-    
+    font-size: 10px;
+
     /* Updated: Crosshair cursor for interaction */
-    cursor: crosshair; 
+    cursor: crosshair;
     text-align: left;
-    
+
     border: 2px solid var(--gb-darkest);
-    text-shadow: none; 
+    text-shadow: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
 /* Hover/Active State (Simulate contrast change and button press) */
@@ -607,11 +462,15 @@ h2 {
 
 /* Link Styling */
 .show-list a {
-    text-decoration: none; 
-    color: var(--gb-darkest); 
+    text-decoration: none;
+    color: var(--gb-darkest);
     font-weight: bold;
-    display: inline; 
+    display: inline-flex;
+    align-items: center;
     padding-top: 0;
+    flex: 1 1 200px;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .show-list li:hover a {
@@ -622,6 +481,7 @@ h2 {
     font-weight: bold;
     color: var(--gb-darkest);
     margin-right: 10px;
+    flex: 0 0 auto;
 }
 
 .show-list li:hover .date {
