@@ -102,13 +102,19 @@
             const toolbarLinks = document.querySelectorAll('.toolbar-link');
             const panels = document.querySelectorAll('.screen-panel');
             const panelStack = document.querySelector('.panel-stack');
+            const screenInner = document.querySelector('.screen-inner');
+            const statusLed = document.querySelector('.status-led');
             const loadingScreen = document.getElementById('loadingScreen');
             const progressBar = loadingScreen ? loadingScreen.querySelector('.loading-bar') : null;
             const LOADING_DURATION = 2600;
             const FADE_DURATION = 800;
+            const PRESS_DURATION = 150;
+            const GLOW_DURATION = 320;
             let dismissTimer = null;
             let hideTimer = null;
             let heightFrame = null;
+            let pressTimer = null;
+            let glowTimer = null;
 
             const clearTimers = () => {
                 if (dismissTimer) {
@@ -223,6 +229,48 @@
                 return matchedPanel;
             };
 
+            const triggerPressEffect = () => {
+                if (!screenInner) {
+                    return;
+                }
+
+                if (pressTimer) {
+                    clearTimeout(pressTimer);
+                    pressTimer = null;
+                }
+
+                screenInner.classList.remove('is-pressing');
+                // eslint-disable-next-line no-unused-expressions
+                screenInner.offsetWidth;
+                screenInner.classList.add('is-pressing');
+
+                pressTimer = window.setTimeout(() => {
+                    screenInner.classList.remove('is-pressing');
+                    pressTimer = null;
+                }, PRESS_DURATION);
+            };
+
+            const triggerLedGlow = () => {
+                if (!statusLed) {
+                    return;
+                }
+
+                if (glowTimer) {
+                    clearTimeout(glowTimer);
+                    glowTimer = null;
+                }
+
+                statusLed.classList.remove('is-glowing');
+                // eslint-disable-next-line no-unused-expressions
+                statusLed.offsetWidth;
+                statusLed.classList.add('is-glowing');
+
+                glowTimer = window.setTimeout(() => {
+                    statusLed.classList.remove('is-glowing');
+                    glowTimer = null;
+                }, GLOW_DURATION);
+            };
+
             showLinks.forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -253,6 +301,9 @@
                     toolbarLinks.forEach(toolbarLink => {
                         toolbarLink.classList.toggle('is-active', toolbarLink === link);
                     });
+
+                    triggerPressEffect();
+                    triggerLedGlow();
                 });
             });
 
