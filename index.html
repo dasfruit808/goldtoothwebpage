@@ -150,7 +150,8 @@
                 sound.play().catch(e => console.error("Sound play failed:", e));
             };
 
-            const ensurePanelStackHeight = () => {
+            const ensurePanelStackHeight = (options = {}) => {
+                const { allowDecrease = false } = options;
                 if (!panelStack) {
                     return;
                 }
@@ -174,14 +175,23 @@
                 });
 
                 if (maxHeight > 0) {
-                    panelStack.style.setProperty('--panel-stack-height', `${Math.ceil(maxHeight)}px`);
+                    const currentHeightValue = panelStack.style.getPropertyValue('--panel-stack-height');
+                    const currentHeight = Number.parseFloat(currentHeightValue) || 0;
+                    const targetHeight = allowDecrease ? maxHeight : Math.max(maxHeight, currentHeight);
+                    panelStack.style.setProperty('--panel-stack-height', `${Math.ceil(targetHeight)}px`);
                 }
             };
 
-            const schedulePanelStackHeight = () => {
+            let pendingHeightOptions = { allowDecrease: false };
+
+            const schedulePanelStackHeight = (options = {}) => {
                 if (!panelStack) {
                     return;
                 }
+
+                pendingHeightOptions = {
+                    allowDecrease: pendingHeightOptions.allowDecrease || Boolean(options.allowDecrease),
+                };
 
                 if (heightFrame) {
                     cancelAnimationFrame(heightFrame);
@@ -189,7 +199,9 @@
 
                 heightFrame = window.requestAnimationFrame(() => {
                     heightFrame = null;
-                    ensurePanelStackHeight();
+                    const nextOptions = pendingHeightOptions;
+                    pendingHeightOptions = { allowDecrease: false };
+                    ensurePanelStackHeight(nextOptions);
                 });
             };
 
@@ -250,8 +262,8 @@
             });
             schedulePanelStackHeight();
 
-            window.addEventListener('resize', schedulePanelStackHeight);
-            window.addEventListener('load', schedulePanelStackHeight);
+            window.addEventListener('resize', () => schedulePanelStackHeight({ allowDecrease: true }));
+            window.addEventListener('load', () => schedulePanelStackHeight({ allowDecrease: true }));
 
             document.querySelectorAll('.screen-panel img, .screen-panel iframe').forEach(media => {
                 if (media.tagName === 'IMG' && media.complete) {
