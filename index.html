@@ -30,18 +30,20 @@
                 <span class="status-led" aria-hidden="true"></span>
             </div>
             <div class="screen-inner">
-                <nav class="top-toolbar" aria-label="Primary navigation">
-                    <a class="toolbar-link is-active" href="#" data-destination="shows">Shows</a>
-                    <a class="toolbar-link" href="#" data-destination="spotify">Spotify</a>
-                    <a class="toolbar-link" href="#" data-destination="shop">Shop</a>
-                    <a class="toolbar-link" href="#" data-destination="instagram">Instagram</a>
-                </nav>
+                <div class="screen-frame">
+                    <nav class="top-toolbar" aria-label="Primary navigation">
+                        <a class="toolbar-link is-active" href="#" data-destination="shows">Shows</a>
+                        <a class="toolbar-link" href="#" data-destination="spotify">Spotify</a>
+                        <a class="toolbar-link" href="#" data-destination="shop">Shop</a>
+                        <a class="toolbar-link" href="#" data-destination="instagram">Instagram</a>
+                    </nav>
 
-                <div class="panel-stack">
-                    <main class="content-section screen-panel" data-panel="shows">
-                        <h2>Upcoming Shows</h2>
+                    <div class="panel-window">
+                        <div class="panel-stack">
+                            <main class="content-section screen-panel" data-panel="shows">
+                                <h2>Upcoming Shows</h2>
 
-                        <ul class="show-list">
+                                <ul class="show-list">
                             <li>
                                 <span class="date">Oct 24</span>:
                                 <a href="https://tickets.wethebeat.com/e/thebuttertones-swan-dive/tickets?utm_source=affiliate&utm_name=Artist&utm_campaign=Artist&utm_id=686d8435c93c46d29fb73d7b0a1e63a2" target="_blank" rel="noopener noreferrer">Las Vegas, NV - Swan Dive</a>
@@ -106,6 +108,8 @@
                         >
                         <a class="button-link" href="https://www.instagram.com/gold_tooth_music/?igsh=NTc4MTIwNjQ2YQ%3D%3D" target="_blank" rel="noopener noreferrer">Open Instagram</a>
                     </section>
+                        </div>
+                    </div>
                 </div>
 
                 <footer>
@@ -120,7 +124,6 @@
             const showLinks = document.querySelectorAll('.show-list a');
             const toolbarLinks = document.querySelectorAll('.toolbar-link');
             const panels = document.querySelectorAll('.screen-panel');
-            const panelStack = document.querySelector('.panel-stack');
             const screenInner = document.querySelector('.screen-inner');
             const statusLed = document.querySelector('.status-led');
             const loadingScreen = document.getElementById('loadingScreen');
@@ -134,7 +137,6 @@
             const GLOW_DURATION = 320;
             let dismissTimer = null;
             let hideTimer = null;
-            let heightFrame = null;
             let pressTimer = null;
             let glowTimer = null;
 
@@ -239,61 +241,6 @@
                 startPlayback();
             };
 
-            const ensurePanelStackHeight = (options = {}) => {
-                const { allowDecrease = false } = options;
-                if (!panelStack) {
-                    return;
-                }
-
-                let maxHeight = 0;
-
-                panels.forEach(panel => {
-                    const wasHidden = panel.hasAttribute('hidden');
-
-                    if (wasHidden) {
-                        panel.classList.add('is-measuring');
-                        panel.removeAttribute('hidden');
-                    }
-
-                    maxHeight = Math.max(maxHeight, panel.offsetHeight);
-
-                    if (wasHidden) {
-                        panel.setAttribute('hidden', '');
-                        panel.classList.remove('is-measuring');
-                    }
-                });
-
-                if (maxHeight > 0) {
-                    const currentHeightValue = panelStack.style.getPropertyValue('--panel-stack-height');
-                    const currentHeight = Number.parseFloat(currentHeightValue) || 0;
-                    const targetHeight = allowDecrease ? maxHeight : Math.max(maxHeight, currentHeight);
-                    panelStack.style.setProperty('--panel-stack-height', `${Math.ceil(targetHeight)}px`);
-                }
-            };
-
-            let pendingHeightOptions = { allowDecrease: false };
-
-            const schedulePanelStackHeight = (options = {}) => {
-                if (!panelStack) {
-                    return;
-                }
-
-                pendingHeightOptions = {
-                    allowDecrease: pendingHeightOptions.allowDecrease || Boolean(options.allowDecrease),
-                };
-
-                if (heightFrame) {
-                    cancelAnimationFrame(heightFrame);
-                }
-
-                heightFrame = window.requestAnimationFrame(() => {
-                    heightFrame = null;
-                    const nextOptions = pendingHeightOptions;
-                    pendingHeightOptions = { allowDecrease: false };
-                    ensurePanelStackHeight(nextOptions);
-                });
-            };
-
             const activatePanel = (destination) => {
                 const matchedPanel = Array.from(panels).find(panel => panel.dataset.panel === destination);
 
@@ -306,8 +253,6 @@
                     panel.toggleAttribute('hidden', !isMatch);
                     panel.classList.toggle('is-active', isMatch);
                 });
-
-                schedulePanelStackHeight();
 
                 return matchedPanel;
             };
@@ -393,18 +338,6 @@
             activatePanel('shows');
             toolbarLinks.forEach(link => {
                 link.classList.toggle('is-active', link.dataset.destination === 'shows');
-            });
-            schedulePanelStackHeight();
-
-            window.addEventListener('resize', () => schedulePanelStackHeight({ allowDecrease: true }));
-            window.addEventListener('load', () => schedulePanelStackHeight({ allowDecrease: true }));
-
-            document.querySelectorAll('.screen-panel img, .screen-panel iframe').forEach(media => {
-                if (media.tagName === 'IMG' && media.complete) {
-                    schedulePanelStackHeight();
-                } else {
-                    media.addEventListener('load', schedulePanelStackHeight, { once: true });
-                }
             });
 
             const dismissLoadingScreen = () => {

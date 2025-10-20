@@ -4,6 +4,9 @@
     --gb-dark: #2c2c2c;       /* Dark Gray - Frame/Elements */
     --gb-light: #a6a6a6;      /* Light Gray - Accent/Hover */
     --gb-lightest: #f5f5f5;   /* Screen background */
+    --shell-min-width: 280px;
+    --shell-max-width: 420px;
+    --panel-padding: clamp(16px, 4vw, 22px);
 }
 
 /* Base Styling for Game Boy Look and STICKY FOOTER SETUP */
@@ -47,12 +50,11 @@ body {
 /* Handheld shell wrapper */
 .gameboy-shell {
     position: relative;
-    width: min(92vw, 440px);
-    margin: 0 auto clamp(24px, 6vw, 60px);
+    width: clamp(var(--shell-min-width), 92vw, var(--shell-max-width));
+    margin: clamp(32px, 6vw, 64px) auto;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: clamp(12px, 3vw, 20px);
 }
 
 .gameboy-shell::before {
@@ -104,26 +106,56 @@ body {
 .screen-inner {
     background: linear-gradient(145deg, #3c4a3c, #1b251e);
     border-radius: 18px;
-    padding: clamp(14px, 4vw, 24px);
+    padding: clamp(18px, 4vw, 26px);
     box-shadow:
         inset 0 4px 10px rgba(0, 0, 0, 0.55),
         0 0 0 4px rgba(8, 8, 8, 0.65);
-    display: flex;
-    flex-direction: column;
-    gap: clamp(16px, 4vw, 24px);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: clamp(18px, 4vw, 24px);
     overflow: hidden;
     box-sizing: border-box;
+    aspect-ratio: 3 / 4;
+    min-height: clamp(420px, 80vw, 560px);
 }
 
 .screen-inner.is-pressing {
     animation: screen-press 150ms ease-in-out;
 }
 
+.screen-frame {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: clamp(14px, 3vw, 22px);
+    background: rgba(12, 26, 18, 0.55);
+    border-radius: clamp(14px, 3vw, 20px);
+    padding: clamp(14px, 3.5vw, 22px);
+    box-shadow:
+        inset 0 0 0 1px rgba(12, 12, 12, 0.5),
+        inset 0 10px 18px rgba(255, 255, 255, 0.1),
+        inset 0 -12px 24px rgba(0, 0, 0, 0.35);
+    min-height: 0;
+}
+
+.panel-window {
+    position: relative;
+    display: flex;
+    border-radius: clamp(12px, 2.5vw, 18px);
+    background: linear-gradient(145deg, rgba(215, 235, 210, 0.95), rgba(177, 200, 170, 0.9));
+    box-shadow:
+        inset 0 0 0 2px rgba(32, 50, 40, 0.24),
+        inset 0 22px 32px rgba(255, 255, 255, 0.16),
+        inset 0 -20px 36px rgba(32, 62, 44, 0.22);
+    padding: 0;
+    min-height: 0;
+}
+
 .screen-inner footer {
     margin-top: auto;
-    padding-top: clamp(8px, 2vw, 16px);
+    padding: 0;
     color: rgba(220, 244, 232, 0.9);
     font-size: 0.6rem;
+    width: 100%;
 }
 
 .screen-inner footer p {
@@ -133,22 +165,19 @@ body {
 
 
 .top-toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: clamp(12px, 3vw, 18px);
-    flex-wrap: wrap;
-    padding: clamp(10px, 3vw, 16px) clamp(14px, 4vw, 22px);
-    background: linear-gradient(180deg, var(--gb-darkest) 0%, #0a2416 100%);
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: clamp(10px, 3vw, 16px);
+    padding: clamp(10px, 3vw, 14px);
+    background: linear-gradient(180deg, rgba(10, 32, 20, 0.95) 0%, rgba(3, 12, 8, 0.95) 100%);
     border-radius: clamp(10px, 2.5vw, 16px);
-    border-bottom: 4px solid var(--gb-dark);
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(8, 8, 8, 0.65);
+    box-shadow: inset 0 0 0 1px rgba(94, 255, 153, 0.12);
     text-transform: uppercase;
     letter-spacing: 3px;
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
     box-sizing: border-box;
 }
@@ -157,29 +186,31 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 1 1 120px;
     min-width: 0;
-    text-align: center;
-    color: var(--gb-lightest);
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(94, 255, 153, 0.15);
+    background: rgba(8, 28, 16, 0.6);
+    color: #d8ffe0;
     text-decoration: none;
-    font-size: 0.75rem;
-    padding: 6px 10px;
-    border: 2px solid transparent;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
     transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-    cursor: crosshair;
+    cursor: pointer;
 }
 
 .top-toolbar a.is-active {
-    color: #d8ffe0;
-    background-color: rgba(94, 255, 153, 0.18);
-    border-color: rgba(94, 255, 153, 0.55);
+    color: #1f3a2a;
+    background-color: rgba(94, 255, 153, 0.82);
+    border-color: rgba(94, 255, 153, 0.6);
+    box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.4);
 }
 
 .top-toolbar a:hover,
 .top-toolbar a:focus {
     color: #d8ffe0;
-    background-color: rgba(94, 255, 153, 0.15);
-    border-color: rgba(94, 255, 153, 0.35);
+    background-color: rgba(94, 255, 153, 0.35);
+    border-color: rgba(94, 255, 153, 0.5);
     outline: none;
 }
 
@@ -425,66 +456,77 @@ body:not(.loaded) .top-toolbar {
     }
 }
 
-/* Added: General text-shadow for all major text elements to give a pixel outline */
-.content-section * {
-    text-shadow: 1px 1px 0 var(--gb-darkest);
-}
-
 /* Main Content Wrapper (The "Screen" area) */
 .content-section {
-    background-color: var(--gb-lightest); /* The main screen color */
-    padding: clamp(16px, 4vw, 24px);
     width: 100%;
     max-width: none;
     margin: 0;
-    text-align: center;
-
-    /* Added: Set position for scanline overlay */
+    text-align: left;
     position: relative;
-    overflow: hidden;
-
-    /* Add a solid black border to mimic the screen bezel */
-    border: clamp(6px, 1.6vw, 10px) solid var(--gb-darkest);
-    border-radius: clamp(12px, 2.5vw, 18px);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5) inset; /* Screen depth */
     box-sizing: border-box;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
 }
 
 
 .panel-stack {
     position: relative;
-    flex: 1 1 auto;
-    display: grid;
-    min-height: var(--panel-stack-height, auto);
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    border-radius: clamp(10px, 2vw, 16px);
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(222, 239, 212, 0.95), rgba(184, 207, 174, 0.85));
+    box-shadow:
+        inset 0 0 0 1px rgba(54, 80, 60, 0.25),
+        inset 0 18px 32px rgba(255, 255, 255, 0.14),
+        inset 0 -18px 32px rgba(38, 70, 50, 0.18);
+}
+
+.panel-stack::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        0deg,
+        rgba(28, 40, 28, 0.12),
+        rgba(28, 40, 28, 0.12) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    opacity: 0.5;
+    mix-blend-mode: multiply;
 }
 
 .screen-panel {
-    grid-area: 1 / 1 / 2 / 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: clamp(12px, 3vw, 20px);
-    min-height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.screen-panel.is-measuring {
     position: absolute;
     inset: 0;
-    visibility: hidden;
-    pointer-events: none;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: clamp(10px, 2.5vw, 18px);
+    padding: var(--panel-padding);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    text-align: left;
+    color: #132417;
+}
+
+.screen-panel:not([hidden]) {
+    display: flex;
 }
 
 .screen-panel iframe,
 .screen-panel img,
 .screen-panel ul {
     align-self: stretch;
-}
-
-.screen-panel[hidden] {
-    display: none;
 }
 
 .visually-hidden {
@@ -509,78 +551,73 @@ body:not(.loaded) .top-toolbar {
     background-color: #000;
 }
 
-/* Added: Scanline Overlay Effect (Game Boy Screen Distortion) */
-.content-section::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Allows clicks on content below */
-    
-    /* Thin, subtle horizontal lines */
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(30, 30, 30, 0.15),
-        rgba(30, 30, 30, 0.15) 1px,
-        transparent 1px,
-        transparent 2px
-    );
-    opacity: 0.7; /* Adjust opacity for subtlety */
-}
-
 /* Headings Styling */
 h2 {
-    font-size: 1.5em;
-    color: var(--gb-darkest);
+    font-size: 1rem;
+    color: #0f2116;
     text-transform: uppercase;
-    letter-spacing: 5px;
-    padding: 10px 0;
-    margin: 0 0 20px 0;
+    letter-spacing: 2px;
+    padding: 0;
+    margin: 0 0 clamp(10px, 3vw, 18px);
+    border-bottom: none;
+    text-align: left;
+}
 
-    border-bottom: 2px solid var(--gb-darkest);
-    text-align: center;
+.content-section p {
+    margin: 0;
+    color: #1c3324;
+    font-size: 0.75rem;
+    line-height: 1.6;
+}
+
+.content-section p + p {
+    margin-top: clamp(8px, 2vw, 12px);
 }
 
 .button-link {
-    display: inline-block;
-    margin-top: clamp(12px, 3vw, 20px);
-    padding: 10px 18px;
-    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: clamp(12px, 3vw, 18px);
+    padding: 10px 16px;
+    font-size: 0.7rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--gb-lightest);
-    background: linear-gradient(180deg, #1e5b36 0%, #0f2e1b 100%);
-    border: 3px solid var(--gb-darkest);
+    color: #103322;
+    background: linear-gradient(180deg, rgba(94, 255, 153, 0.92) 0%, rgba(62, 180, 110, 0.82) 100%);
+    border: 1px solid rgba(18, 40, 28, 0.4);
     border-radius: clamp(8px, 2vw, 12px);
     text-decoration: none;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
-    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
-    cursor: crosshair;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    cursor: pointer;
 }
 
 .button-link:hover,
 .button-link:focus {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
-    background: linear-gradient(180deg, #257342 0%, #143522 100%);
+    transform: translateY(1px);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, rgba(110, 255, 170, 0.95) 0%, rgba(68, 196, 124, 0.88) 100%);
     outline: none;
 }
 
 .button-link:focus-visible {
-    box-shadow: 0 0 0 2px var(--gb-lightest), 0 0 0 4px rgba(94, 255, 153, 0.6);
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+        0 0 0 2px rgba(16, 40, 24, 0.7),
+        0 0 0 4px rgba(94, 255, 153, 0.45);
 }
 
 .instagram-preview {
     width: 100%;
     max-width: 100%;
     display: block;
-    margin: clamp(12px, 3vw, 18px) auto;
-    border: 2px solid var(--gb-darkest);
-    border-radius: 10px;
-    background-color: var(--gb-lightest);
-    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.35), 0 4px 0 rgba(0, 0, 0, 0.5);
+    margin: clamp(10px, 2.5vw, 16px) 0;
+    border: 1px solid rgba(24, 42, 32, 0.35);
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .shop-list {
@@ -588,19 +625,20 @@ h2 {
     padding: 0;
     margin: 0;
     display: grid;
-    gap: 8px;
+    gap: clamp(8px, 2vw, 12px);
 }
 
 .shop-list li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 12px;
-    background: var(--gb-light);
-    border: 2px solid var(--gb-darkest);
+    padding: clamp(10px, 2.6vw, 14px) clamp(12px, 3vw, 16px);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(24, 42, 32, 0.35);
     border-radius: 10px;
     text-shadow: none;
     text-transform: uppercase;
+    font-size: 0.72rem;
 }
 
 .item-title {
@@ -627,66 +665,62 @@ h2 {
 .show-list {
     list-style: none;
     padding: 0;
-    margin: 0 auto 30px auto;
-    width: min(100%, 320px);
+    margin: 0;
+    width: 100%;
 }
 
 .show-list li {
-    background-color: var(--gb-light);
-    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: clamp(10px, 2.8vw, 14px);
     margin-bottom: 8px;
-
-    /* Updated: Font size */
-    font-size: 10px;
-
-    /* Updated: Crosshair cursor for interaction */
-    cursor: crosshair;
+    font-size: 0.75rem;
+    cursor: pointer;
     text-align: left;
-
-    border: 2px solid var(--gb-darkest);
+    border: 1px solid rgba(24, 42, 32, 0.45);
+    border-radius: 10px;
     text-shadow: none;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: clamp(8px, 2vw, 12px);
     flex-wrap: wrap;
+    transition: transform 0.12s ease, background-color 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
 }
 
 /* Hover/Active State (Simulate contrast change and button press) */
 .show-list li:hover {
-    background-color: var(--gb-darkest); 
-    color: var(--gb-lightest); 
-    transform: none; 
-    
-    /* Added: Depressed button look */
-    box-shadow: inset 2px 2px 0 var(--gb-dark);
+    background-color: rgba(94, 255, 153, 0.18);
+    color: #0e1f15;
+    transform: translateY(1px);
+    border-color: rgba(24, 42, 32, 0.65);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* Link Styling */
 .show-list a {
     text-decoration: none;
-    color: var(--gb-darkest);
-    font-weight: bold;
+    color: #0b1d13;
+    font-weight: 600;
     display: inline-flex;
     align-items: center;
     padding-top: 0;
-    flex: 1 1 200px;
+    flex: 1 1 220px;
     min-width: 0;
     overflow-wrap: anywhere;
 }
 
 .show-list li:hover a {
-    color: var(--gb-lightest); 
+    color: #0b1d13;
 }
 
 .date {
     font-weight: bold;
-    color: var(--gb-darkest);
-    margin-right: 10px;
+    color: #1c3324;
+    margin-right: 6px;
     flex: 0 0 auto;
 }
 
 .show-list li:hover .date {
-    color: var(--gb-lightest);
+    color: #0b1d13;
 }
 
 /* Call-to-Action Message (Typing/Flicker Effect) */
@@ -723,12 +757,15 @@ h2 {
 
 /* Footer Styling (Always at the bottom of the viewport) */
 footer {
-    padding: 10px;
-    background-color: var(--gb-darkest); 
-    color: var(--gb-lightest); 
-    font-size: 0.8em;
+    padding: clamp(8px, 2vw, 12px);
+    background-color: rgba(6, 18, 12, 0.75);
+    color: rgba(220, 244, 232, 0.95);
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-top: auto; 
+    margin-top: auto;
     width: 100%;
+    border-radius: clamp(8px, 2vw, 12px);
+    border: 1px solid rgba(0, 0, 0, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
