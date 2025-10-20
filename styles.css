@@ -41,7 +41,7 @@ body {
 .gameboy-shell {
     position: relative;
     width: min(92vw, 440px);
-    margin: clamp(24px, 6vw, 60px) auto;
+    margin: 0 auto clamp(24px, 6vw, 60px);
     display: flex;
     flex-direction: column;
     align-items: stretch;
