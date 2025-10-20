@@ -61,7 +61,42 @@
             const sound = document.getElementById('clickSound');
             const showLinks = document.querySelectorAll('.show-list a');
             const loadingScreen = document.getElementById('loadingScreen');
+            const progressBar = loadingScreen ? loadingScreen.querySelector('.loading-bar') : null;
             const LOADING_DURATION = 2600;
+            const FADE_DURATION = 800;
+            let dismissTimer = null;
+            let hideTimer = null;
+
+            const clearTimers = () => {
+                if (dismissTimer) {
+                    clearTimeout(dismissTimer);
+                    dismissTimer = null;
+                }
+                if (hideTimer) {
+                    clearTimeout(hideTimer);
+                    hideTimer = null;
+                }
+            };
+
+            const resetLoadingScreen = () => {
+                if (!loadingScreen) {
+                    return;
+                }
+
+                clearTimers();
+                loadingScreen.classList.remove('fade-out', 'is-hidden');
+                loadingScreen.style.removeProperty('display');
+
+                if (progressBar) {
+                    progressBar.style.animation = 'none';
+                    // Trigger a reflow so that the animation can restart.
+                    // eslint-disable-next-line no-unused-expressions
+                    progressBar.offsetWidth;
+                    progressBar.style.animation = '';
+                }
+
+                document.body.classList.remove('loaded');
+            };
 
             showLinks.forEach(link => {
                 link.addEventListener('click', function(event) {
@@ -84,20 +119,40 @@
 
                 document.body.classList.add('loaded');
                 loadingScreen.classList.add('fade-out');
-                setTimeout(() => loadingScreen.remove(), 800);
+                hideTimer = window.setTimeout(() => {
+                    loadingScreen.classList.add('is-hidden');
+                }, FADE_DURATION);
             };
 
-            if (loadingScreen) {
+            const startLoadingSequence = () => {
+                if (!loadingScreen) {
+                    document.body.classList.add('loaded');
+                    return;
+                }
+
+                resetLoadingScreen();
+
                 if (document.readyState === 'complete') {
-                    setTimeout(dismissLoadingScreen, LOADING_DURATION);
+                    dismissTimer = window.setTimeout(dismissLoadingScreen, LOADING_DURATION);
                 } else {
                     window.addEventListener('load', () => {
-                        setTimeout(dismissLoadingScreen, LOADING_DURATION);
-                    });
+                        dismissTimer = window.setTimeout(dismissLoadingScreen, LOADING_DURATION);
+                    }, { once: true });
                 }
-            } else {
-                document.body.classList.add('loaded');
-            }
+            };
+
+            startLoadingSequence();
+
+            window.addEventListener('pageshow', event => {
+                const hasPerformanceApi = typeof performance !== 'undefined'
+                    && typeof performance.getEntriesByType === 'function';
+                const navigationEntries = hasPerformanceApi ? performance.getEntriesByType('navigation') : [];
+                const cameFromHistory = event.persisted || (navigationEntries[0] && navigationEntries[0].type === 'back_forward');
+
+                if (cameFromHistory) {
+                    startLoadingSequence();
+                }
+            });
         });
     </script>
 </body>
