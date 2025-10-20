@@ -115,8 +115,8 @@ body {
     gap: clamp(18px, 4vw, 24px);
     overflow: hidden;
     box-sizing: border-box;
-    aspect-ratio: 3 / 4;
     min-height: clamp(420px, 80vw, 560px);
+    height: clamp(420px, 80vw, 560px);
 }
 
 .screen-inner.is-pressing {
@@ -140,6 +140,7 @@ body {
 .panel-window {
     position: relative;
     display: flex;
+    flex: 1;
     border-radius: clamp(12px, 2.5vw, 18px);
     background: linear-gradient(145deg, rgba(215, 235, 210, 0.95), rgba(177, 200, 170, 0.9));
     box-shadow:
@@ -477,6 +478,7 @@ body:not(.loaded) .top-toolbar {
     flex: 1;
     width: 100%;
     min-height: 0;
+    height: 100%;
     border-radius: clamp(10px, 2vw, 16px);
     overflow: hidden;
     background: linear-gradient(145deg, rgba(222, 239, 212, 0.95), rgba(184, 207, 174, 0.85));
