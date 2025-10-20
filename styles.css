@@ -851,3 +851,81 @@ footer p {
     margin: 0;
     white-space: normal;
 }
+
+@media (max-width: 600px) {
+    body {
+        font-size: clamp(10px, 2.6vw, 12px);
+        background-attachment: scroll;
+    }
+
+    .gameboy-shell {
+        width: min(100%, 360px);
+        margin: clamp(16px, 6vw, 28px) auto;
+        padding: 0 clamp(8px, 3vw, 16px);
+    }
+
+    .screen-bezel {
+        padding: clamp(12px, 5vw, 18px);
+        border-radius: 18px;
+    }
+
+    .screen-inner {
+        padding: clamp(14px, 6vw, 22px);
+        min-height: min(520px, 85vh);
+        height: auto;
+        gap: clamp(16px, 5vw, 24px);
+    }
+
+    .screen-frame {
+        gap: clamp(10px, 5vw, 18px);
+        padding: clamp(12px, 5vw, 20px);
+    }
+
+    .panel-window {
+        border-radius: 14px;
+        min-height: min(400px, 68vh);
+    }
+
+    .panel-stack {
+        border-radius: 12px;
+        min-height: min(400px, 68vh);
+    }
+
+    .screen-panel {
+        padding: clamp(18px, 7vw, 26px);
+    }
+
+    .top-toolbar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(8px, 4vw, 14px);
+        letter-spacing: 2px;
+    }
+
+    .top-toolbar a {
+        font-size: 0.62rem;
+        padding: 6px 8px;
+        letter-spacing: 1.6px;
+    }
+
+    .show-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .show-list a {
+        flex: 1 1 100%;
+    }
+
+    .cta-message {
+        white-space: normal;
+        width: 100%;
+        border-right: none;
+        animation: flicker 0.75s step-end infinite;
+        text-align: left;
+    }
+
+    footer {
+        font-size: 0.55rem;
+        letter-spacing: 1.6px;
+    }
+}
