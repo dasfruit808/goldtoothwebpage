@@ -97,6 +97,10 @@ body {
         inset 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
+.status-led.is-glowing {
+    animation: led-glow 320ms ease-out;
+}
+
 .screen-inner {
     background: linear-gradient(145deg, #3c4a3c, #1b251e);
     border-radius: 18px;
@@ -109,6 +113,10 @@ body {
     gap: clamp(16px, 4vw, 24px);
     overflow: hidden;
     box-sizing: border-box;
+}
+
+.screen-inner.is-pressing {
+    animation: screen-press 150ms ease-in-out;
 }
 
 .screen-inner footer {
@@ -374,6 +382,46 @@ body:not(.loaded) .top-toolbar {
     75% {
         opacity: 0.24;
         transform: translate3d(-1%, 1%, 0);
+    }
+}
+
+@keyframes screen-press {
+    0% {
+        transform: translate3d(0, 0, 0);
+        box-shadow:
+            inset 0 4px 10px rgba(0, 0, 0, 0.55),
+            0 0 0 4px rgba(8, 8, 8, 0.65);
+    }
+    50% {
+        transform: translate3d(0, 2px, 0);
+        box-shadow:
+            inset 0 3px 8px rgba(0, 0, 0, 0.6),
+            0 0 0 4px rgba(8, 8, 8, 0.75);
+    }
+    100% {
+        transform: translate3d(0, 0, 0);
+        box-shadow:
+            inset 0 4px 10px rgba(0, 0, 0, 0.55),
+            0 0 0 4px rgba(8, 8, 8, 0.65);
+    }
+}
+
+@keyframes led-glow {
+    0% {
+        box-shadow:
+            0 0 8px rgba(255, 72, 88, 0.65),
+            inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    }
+    40% {
+        box-shadow:
+            0 0 14px rgba(255, 110, 120, 0.8),
+            0 0 30px rgba(255, 110, 120, 0.45),
+            inset 0 2px 3px rgba(255, 255, 255, 0.9);
+    }
+    100% {
+        box-shadow:
+            0 0 8px rgba(255, 72, 88, 0.65),
+            inset 0 1px 2px rgba(255, 255, 255, 0.8);
     }
 }
 
