@@ -553,6 +553,208 @@ body:not(.loaded) .top-toolbar {
     background-color: #000;
 }
 
+.sequencer {
+    margin-top: clamp(16px, 4vw, 22px);
+    padding: clamp(14px, 3.5vw, 20px);
+    background: linear-gradient(180deg, rgba(220, 240, 210, 0.92) 0%, rgba(186, 214, 178, 0.88) 100%);
+    border: 2px solid rgba(28, 46, 32, 0.35);
+    border-radius: clamp(12px, 3vw, 16px);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.35),
+        inset 0 -6px 10px rgba(20, 40, 28, 0.25),
+        0 4px 0 rgba(8, 18, 12, 0.35);
+    text-align: left;
+    color: #152b1a;
+}
+
+.sequencer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(10px, 2vw, 14px);
+    margin-bottom: clamp(12px, 3vw, 16px);
+}
+
+.sequencer-header h3 {
+    margin: 0;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.sequencer-instructions {
+    margin: 0 0 clamp(10px, 2vw, 14px);
+    font-size: 0.65rem;
+    line-height: 1.5;
+    color: #1c3624;
+}
+
+.transport-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(8px, 2vw, 12px);
+}
+
+.pixel-button {
+    font: inherit;
+    padding: clamp(8px, 2vw, 10px) clamp(10px, 2.5vw, 14px);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #12321f;
+    background: linear-gradient(180deg, rgba(94, 255, 153, 0.92) 0%, rgba(62, 180, 110, 0.82) 100%);
+    border: 2px solid rgba(16, 34, 24, 0.45);
+    border-radius: clamp(10px, 3vw, 14px);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.4),
+        inset 0 -4px 0 rgba(10, 24, 16, 0.45),
+        0 3px 0 rgba(12, 26, 18, 0.35);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pixel-button.is-secondary {
+    color: #f4f7f0;
+    background: linear-gradient(180deg, rgba(180, 62, 118, 0.95) 0%, rgba(124, 32, 78, 0.9) 100%);
+    border-color: rgba(52, 12, 30, 0.55);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 210, 234, 0.35),
+        inset 0 -4px 0 rgba(56, 10, 26, 0.55),
+        0 3px 0 rgba(40, 8, 20, 0.4);
+}
+
+.pixel-button:focus-visible,
+.pad-button:focus-visible {
+    outline: 2px solid rgba(94, 255, 153, 0.85);
+    outline-offset: 2px;
+}
+
+.pixel-button:active {
+    transform: translateY(2px);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(10, 24, 16, 0.6),
+        0 1px 0 rgba(12, 26, 18, 0.35);
+}
+
+.pixel-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.25),
+        inset 0 -2px 0 rgba(10, 24, 16, 0.35),
+        0 2px 0 rgba(12, 26, 18, 0.25);
+}
+
+.tempo-control {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(8px, 2vw, 12px);
+    margin: clamp(12px, 3vw, 16px) 0 clamp(14px, 3vw, 18px);
+    padding: clamp(8px, 2vw, 12px);
+    border-radius: clamp(8px, 2vw, 12px);
+    background: linear-gradient(180deg, rgba(186, 214, 178, 0.9) 0%, rgba(162, 198, 154, 0.85) 100%);
+    border: 1px solid rgba(22, 36, 26, 0.3);
+}
+
+.tempo-control label {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #1c3524;
+}
+
+.tempo-control input[type="range"] {
+    width: 100%;
+    accent-color: #5cff99;
+}
+
+.tempo-control output {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    padding: 4px 6px;
+    border-radius: 6px;
+    background: rgba(28, 50, 36, 0.18);
+    color: #1b331f;
+}
+
+.step-grid {
+    display: grid;
+    gap: clamp(8px, 2.5vw, 12px);
+}
+
+.step-row {
+    display: grid;
+    grid-template-columns: auto repeat(8, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(6px, 2vw, 10px);
+}
+
+.track-label {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #102515;
+}
+
+.pad-button {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 2px solid rgba(32, 58, 40, 0.6);
+    border-radius: clamp(6px, 2vw, 10px);
+    background: linear-gradient(180deg, rgba(210, 230, 204, 0.95) 0%, rgba(178, 204, 170, 0.92) 100%);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.4),
+        inset 0 -4px 0 rgba(34, 54, 40, 0.35),
+        0 2px 0 rgba(12, 24, 16, 0.25);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    position: relative;
+}
+
+.pad-button.is-on {
+    background: linear-gradient(180deg, rgba(94, 255, 153, 0.95) 0%, rgba(70, 196, 124, 0.9) 100%);
+    border-color: rgba(32, 86, 54, 0.65);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.4),
+        inset 0 -4px 0 rgba(38, 86, 58, 0.55),
+        0 3px 0 rgba(16, 40, 24, 0.35);
+}
+
+.pad-button.is-active {
+    animation: pad-glow 0.4s steps(2, end) infinite;
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.6),
+        inset 0 -4px 0 rgba(68, 120, 82, 0.6),
+        0 0 8px rgba(94, 255, 153, 0.55),
+        0 3px 0 rgba(20, 46, 30, 0.35);
+}
+
+.pad-button:active {
+    transform: translateY(1px);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(32, 58, 40, 0.4),
+        0 1px 0 rgba(12, 24, 16, 0.25);
+}
+
+@keyframes pad-glow {
+    0% {
+        filter: brightness(1);
+    }
+
+    100% {
+        filter: brightness(1.35);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pad-button.is-active {
+        animation: none;
+        filter: none;
+    }
+}
+
 .sound-visualizer {
     margin-top: clamp(12px, 3vw, 18px);
     display: flex;
