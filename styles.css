@@ -13,7 +13,7 @@ html, .site-wrapper {
 
 body {
     /* Updated: Using the imported pixel font 'Press Start 2P' */
-    font-family: 'Press Start 2P', monospace; 
+    font-family: 'Press Start 2P', monospace;
     
     /* Updated: Smaller base font size and line height for pixel look */
     font-size: 8px; 
@@ -34,6 +34,133 @@ body {
     /* STICKY FOOTER: Flexbox setup */
     display: flex;
     flex-direction: column;
+}
+
+/* Loading Screen (Game Boy Boot Animation) */
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, var(--gb-light) 0%, var(--gb-darkest) 65%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    color: var(--gb-lightest);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 20px;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+.loading-frame {
+    background: var(--gb-darkest);
+    border: 6px solid var(--gb-lightest);
+    box-shadow:
+        0 0 0 4px var(--gb-dark),
+        0 0 20px rgba(0, 0, 0, 0.6);
+    padding: 16px 24px 24px;
+    width: min(90vw, 360px);
+}
+
+.loading-header {
+    font-size: 0.6rem;
+    text-align: center;
+    margin-bottom: 12px;
+    color: var(--gb-lightest);
+    text-shadow: 1px 1px 0 var(--gb-dark);
+}
+
+.loading-display {
+    background: var(--gb-lightest);
+    border: 6px solid var(--gb-darkest);
+    padding: 24px 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-display::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(15, 56, 15, 0.12),
+        rgba(15, 56, 15, 0.12) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    mix-blend-mode: multiply;
+}
+
+.loading-logo {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: var(--gb-darkest);
+    text-align: center;
+    letter-spacing: 4px;
+}
+
+.loading-progress {
+    border: 3px solid var(--gb-darkest);
+    background: rgba(12, 48, 12, 0.35);
+    height: 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-bar {
+    background: linear-gradient(90deg, var(--gb-darkest), var(--gb-dark));
+    height: 100%;
+    width: 0;
+    animation: progress-fill 2.4s steps(8, end) forwards;
+}
+
+.loading-text {
+    margin-top: 18px;
+    font-size: 0.7rem;
+    text-align: center;
+    color: var(--gb-darkest);
+    animation: flicker 1.2s steps(2, end) infinite;
+}
+
+.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+.content-section,
+footer {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+body:not(.loaded) .content-section,
+body:not(.loaded) footer {
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+}
+
+@keyframes progress-fill {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes flicker {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 /* Added: General text-shadow for all major text elements to give a pixel outline */
