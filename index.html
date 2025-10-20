@@ -12,6 +12,19 @@
 </head>
 <body class="site-wrapper">
 
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-frame">
+            <div class="loading-header">Dot Matrix with Stereo Sound</div>
+            <div class="loading-display">
+                <div class="loading-logo">Gold Tooth</div>
+                <div class="loading-progress">
+                    <div class="loading-bar"></div>
+                </div>
+                <p class="loading-text">Press Start</p>
+            </div>
+        </div>
+    </div>
+
     <main class="content-section">
         <h2>Upcoming Shows</h2>
 
@@ -47,22 +60,44 @@
         document.addEventListener('DOMContentLoaded', function() {
             const sound = document.getElementById('clickSound');
             const showLinks = document.querySelectorAll('.show-list a');
+            const loadingScreen = document.getElementById('loadingScreen');
+            const LOADING_DURATION = 2600;
 
             showLinks.forEach(link => {
                 link.addEventListener('click', function(event) {
-                    // Stop default navigation immediately
-                    event.preventDefault(); 
-                    
-                    // Play sound
-                    sound.currentTime = 0; 
+                    event.preventDefault();
+
+                    sound.currentTime = 0;
                     sound.play().catch(e => console.error("Sound play failed:", e));
 
-                    // Navigate after a brief delay (150ms) to let the sound play
                     setTimeout(() => {
                         window.open(link.href, link.target);
-                    }, 150); 
+                    }, 150);
                 });
             });
+
+            const dismissLoadingScreen = () => {
+                if (!loadingScreen) {
+                    document.body.classList.add('loaded');
+                    return;
+                }
+
+                document.body.classList.add('loaded');
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => loadingScreen.remove(), 800);
+            };
+
+            if (loadingScreen) {
+                if (document.readyState === 'complete') {
+                    setTimeout(dismissLoadingScreen, LOADING_DURATION);
+                } else {
+                    window.addEventListener('load', () => {
+                        setTimeout(dismissLoadingScreen, LOADING_DURATION);
+                    });
+                }
+            } else {
+                document.body.classList.add('loaded');
+            }
         });
     </script>
 </body>
