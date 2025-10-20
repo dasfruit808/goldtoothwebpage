@@ -494,9 +494,20 @@ h2 {
     box-shadow: 0 0 0 2px var(--gb-lightest), 0 0 0 4px rgba(94, 255, 153, 0.6);
 }
 
+.instagram-preview {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    margin: clamp(12px, 3vw, 18px) auto;
+    border: 2px solid var(--gb-darkest);
+    border-radius: 10px;
+    background-color: var(--gb-lightest);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.35), 0 4px 0 rgba(0, 0, 0, 0.5);
+}
+
 /* Show List Styling */
 .show-list {
-    list-style: none; 
+    list-style: none;
     padding: 0;
     margin: 0 0 30px 0;
 }
