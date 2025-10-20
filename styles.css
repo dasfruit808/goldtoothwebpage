@@ -155,13 +155,13 @@ body {
     margin-top: auto;
     padding: 0;
     color: rgba(220, 244, 232, 0.9);
-    font-size: 0.6rem;
+    font-size: 0.45rem;
     width: 100%;
 }
 
 .screen-inner footer p {
     margin: 0;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 
