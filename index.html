@@ -5,10 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gold Tooth - Upcoming Shows (GB Style)</title>
     <link rel="stylesheet" href="styles.css">
-    
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""
+    >
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha512-VuZ8Myo0eVbDk4Z1cdq9VHtV6nRvWmvMRGsiE232z1FMvx6bMpiKFF9volG/Gp2VTl28pQk5n0zJwUs0Msv0Eg=="
+        crossorigin=""
+    ></script>
 </head>
 <body class="site-wrapper">
 
@@ -33,6 +44,7 @@
                 <div class="screen-frame">
                     <nav class="top-toolbar" aria-label="Primary navigation">
                         <a class="toolbar-link is-active" href="#" data-destination="shows">Shows</a>
+                        <a class="toolbar-link" href="#" data-destination="map">Map</a>
                         <a class="toolbar-link" href="#" data-destination="spotify">Spotify</a>
                         <a class="toolbar-link" href="#" data-destination="shop">Shop</a>
                         <a class="toolbar-link" href="#" data-destination="instagram">Instagram</a>
@@ -44,26 +56,32 @@
                                 <h2>Upcoming Shows</h2>
 
                                 <ul class="show-list">
-                            <li>
-                                <span class="date">Oct 24</span>:
-                                <a href="https://tickets.wethebeat.com/e/thebuttertones-swan-dive/tickets?utm_source=affiliate&utm_name=Artist&utm_campaign=Artist&utm_id=686d8435c93c46d29fb73d7b0a1e63a2" target="_blank" rel="noopener noreferrer">Las Vegas, NV - Swan Dive</a>
-                            </li>
-                            <li>
-                                <span class="date">Oct 26</span>:
-                                <a href="https://bandsintown.com/t/1035894547?affil_code=js_thebuttertones.com&app_id=js_thebuttertones.com&came_from=700&ticket_id=1681128626&utm_campaign=ticket_tktpp&utm_medium=web&utm_source=widget" target="_blank" rel="noopener noreferrer">Sacramento, CA - Ace of Spades</a>
-                            </li>
-                            <li>
-                                <span class="date">Oct 27</span>:
-                                <a href="https://www.tixr.com/groups/cornerstoneberkeley/events/the-buttertones-150298" target="_blank" rel="noopener noreferrer">Berkley, CA - Cornerstone</a>
-                            </li>
-                            <li>
-                                <span class="date">Nov 15</span>:
-                                <a href="https://www.bandsintown.com/t/1035863823?affil_code=js_thebuttertones.com&app_id=js_thebuttertones.com&came_from=700&ticket_id=1682081070&utm_campaign=ticket_tktpp&utm_medium=web&utm_source=widget" target="_blank" rel="noopener noreferrer">Santa Ana, CA - The Observatory</a>
-                            </li>
-                        </ul>
+                                    <li data-lat="36.1699" data-lng="-115.1398">
+                                        <span class="date">Oct 24</span>:
+                                        <a href="https://tickets.wethebeat.com/e/thebuttertones-swan-dive/tickets?utm_source=affiliate&utm_name=Artist&utm_campaign=Artist&utm_id=686d8435c93c46d29fb73d7b0a1e63a2" target="_blank" rel="noopener noreferrer">Las Vegas, NV - Swan Dive</a>
+                                    </li>
+                                    <li data-lat="38.5802" data-lng="-121.4950">
+                                        <span class="date">Oct 26</span>:
+                                        <a href="https://bandsintown.com/t/1035894547?affil_code=js_thebuttertones.com&app_id=js_thebuttertones.com&came_from=700&ticket_id=1681128626&utm_campaign=ticket_tktpp&utm_medium=web&utm_source=widget" target="_blank" rel="noopener noreferrer">Sacramento, CA - Ace of Spades</a>
+                                    </li>
+                                    <li data-lat="37.8715" data-lng="-122.2730">
+                                        <span class="date">Oct 27</span>:
+                                        <a href="https://www.tixr.com/groups/cornerstoneberkeley/events/the-buttertones-150298" target="_blank" rel="noopener noreferrer">Berkley, CA - Cornerstone</a>
+                                    </li>
+                                    <li data-lat="33.7455" data-lng="-117.8677">
+                                        <span class="date">Nov 15</span>:
+                                        <a href="https://www.bandsintown.com/t/1035863823?affil_code=js_thebuttertones.com&app_id=js_thebuttertones.com&came_from=700&ticket_id=1682081070&utm_campaign=ticket_tktpp&utm_medium=web&utm_source=widget" target="_blank" rel="noopener noreferrer">Santa Ana, CA - The Observatory</a>
+                                    </li>
+                                </ul>
 
                         <p class="cta-message">Get your tickets before they sell out!</p>
                     </main>
+
+                    <section class="content-section screen-panel" data-panel="map" hidden>
+                        <h2>Tour Map</h2>
+                        <p>Track our upcoming stops and tap a marker to grab tickets.</p>
+                        <div id="tourMap" aria-label="Tour map"></div>
+                    </section>
 
                     <section class="content-section screen-panel" data-panel="shop" hidden>
                         <h2>Shop</h2>
@@ -162,6 +180,8 @@
             const statusLed = document.querySelector('.status-led');
             const loadingScreen = document.getElementById('loadingScreen');
             const progressBar = loadingScreen ? loadingScreen.querySelector('.loading-bar') : null;
+            const mapContainer = document.getElementById('tourMap');
+            const showItems = document.querySelectorAll('.show-list li[data-lat][data-lng]');
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             let audioContext = null;
             let clickBuffer = null;
@@ -169,10 +189,14 @@
             const FADE_DURATION = 800;
             const PRESS_DURATION = 150;
             const GLOW_DURATION = 320;
+            const DEFAULT_MAP_VIEW = [37.7749, -122.4194];
+            const DEFAULT_MAP_ZOOM = 5;
             let dismissTimer = null;
             let hideTimer = null;
             let pressTimer = null;
             let glowTimer = null;
+            let tourMap = null;
+            let mapBounds = null;
 
             const createClickBuffer = (context) => {
                 if (!context) {
@@ -275,6 +299,85 @@
                 startPlayback();
             };
 
+            const initializeMap = () => {
+                if (!mapContainer || typeof L === 'undefined') {
+                    return null;
+                }
+
+                if (tourMap) {
+                    return tourMap;
+                }
+
+                tourMap = L.map(mapContainer, {
+                    zoomControl: false,
+                    scrollWheelZoom: false,
+                    doubleClickZoom: false,
+                    boxZoom: false,
+                    keyboard: false,
+                    tap: false,
+                });
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors',
+                }).addTo(tourMap);
+
+                const boundsPoints = [];
+                const hasSize = mapContainer.offsetWidth > 0 && mapContainer.offsetHeight > 0;
+
+                showItems.forEach(item => {
+                    const lat = parseFloat(item.dataset.lat);
+                    const lng = parseFloat(item.dataset.lng);
+
+                    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+                        return;
+                    }
+
+                    const link = item.querySelector('a');
+                    const dateElement = item.querySelector('.date');
+                    const popupTitle = dateElement ? dateElement.textContent.trim() : '';
+                    const popupBody = link ? link.textContent.trim() : '';
+                    const popupContent = popupTitle
+                        ? `<strong>${popupTitle}</strong><br>${popupBody}`
+                        : popupBody;
+
+                    const marker = L.marker([lat, lng]).addTo(tourMap);
+
+                    if (popupContent) {
+                        marker.bindPopup(popupContent);
+                    }
+
+                    boundsPoints.push([lat, lng]);
+                });
+
+                if (boundsPoints.length > 0) {
+                    mapBounds = L.latLngBounds(boundsPoints);
+
+                    if (hasSize) {
+                        tourMap.fitBounds(mapBounds, { padding: [24, 24] });
+                    } else {
+                        tourMap.setView(mapBounds.getCenter(), DEFAULT_MAP_ZOOM);
+                    }
+                } else {
+                    tourMap.setView(DEFAULT_MAP_VIEW, DEFAULT_MAP_ZOOM);
+                }
+
+                return tourMap;
+            };
+
+            const refreshMapSize = () => {
+                if (!tourMap) {
+                    return;
+                }
+
+                tourMap.invalidateSize();
+
+                if (mapBounds) {
+                    tourMap.fitBounds(mapBounds, { padding: [24, 24] });
+                } else {
+                    tourMap.setView(DEFAULT_MAP_VIEW, DEFAULT_MAP_ZOOM);
+                }
+            };
+
             const activatePanel = (destination) => {
                 const matchedPanel = Array.from(panels).find(panel => panel.dataset.panel === destination);
 
@@ -287,6 +390,16 @@
                     panel.toggleAttribute('hidden', !isMatch);
                     panel.classList.toggle('is-active', isMatch);
                 });
+
+                if (destination === 'map') {
+                    const mapInstance = initializeMap();
+
+                    if (mapInstance) {
+                        window.requestAnimationFrame(() => {
+                            refreshMapSize();
+                        });
+                    }
+                }
 
                 return matchedPanel;
             };
@@ -369,6 +482,7 @@
                 });
             });
 
+            initializeMap();
             activatePanel('shows');
             toolbarLinks.forEach(link => {
                 link.classList.toggle('is-active', link.dataset.destination === 'shows');
