@@ -154,6 +154,12 @@ body {
     cursor: crosshair;
 }
 
+.top-toolbar a.is-active {
+    color: #d8ffe0;
+    background-color: rgba(94, 255, 153, 0.18);
+    border-color: rgba(94, 255, 153, 0.55);
+}
+
 .top-toolbar a:hover,
 .top-toolbar a:focus {
     color: #d8ffe0;
@@ -387,6 +393,42 @@ body:not(.loaded) .top-toolbar {
     border-radius: clamp(12px, 2.5vw, 18px);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5) inset; /* Screen depth */
     box-sizing: border-box;
+}
+
+.panel-stack {
+    position: relative;
+    flex: 1 1 auto;
+    display: grid;
+}
+
+.screen-panel {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.screen-panel[hidden] {
+    display: none;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    white-space: nowrap;
+}
+
+#spotifyPanel iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 360px;
+    border: 0;
+    border-radius: clamp(8px, 2vw, 12px);
+    background-color: #000;
 }
 
 /* Added: Scanline Overlay Effect (Game Boy Screen Distortion) */
