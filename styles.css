@@ -546,8 +546,8 @@ body:not(.loaded) .top-toolbar {
 #spotifyPanel iframe {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: 360px;
+    flex: 1 1 auto;
+    min-height: clamp(320px, 65vh, 520px);
     border: 0;
     border-radius: clamp(8px, 2vw, 12px);
     background-color: #000;
